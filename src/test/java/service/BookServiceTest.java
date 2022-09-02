@@ -39,6 +39,13 @@ public class BookServiceTest {
         assertEquals(expectedFoundBook.getIsbn(),bookDTO.getIsbn());
         assertEquals(expectedFoundBook.getPublisherName(),bookDTO.getPublisherName());
 
+    }
 
+    @Test
+    void whenGivenUnexixtingIdThenNotFindThrowAnException() {
+        var invalidId = 10l;
+        when(bookRepository.findById(invalidId))
+                .thenReturn(Optional.ofNullable(any(Book.class)));
+        assertThrows(BookNotFoundException.class,() -> bookService.findById(invalidId));
     }
 }
